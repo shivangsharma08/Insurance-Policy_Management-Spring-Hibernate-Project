@@ -1,0 +1,8 @@
+com\ncs\entities\CustomerPolicy.class
+com\ncs\controllers\AppController.class
+com\ncs\entities\Policy.class
+com\ncs\dao\AppDaoImpl.class
+com\ncs\entities\Customer.class
+com\ncs\service\AppService.class
+com\ncs\service\AppServiceImpl.class
+com\ncs\dao\AppDao.class
