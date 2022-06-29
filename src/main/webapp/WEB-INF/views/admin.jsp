@@ -1,5 +1,6 @@
 <html>
   <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -13,8 +14,9 @@
     ></script>
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark nvbr">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
+        <a class="navbar-brand">Insurance Policy Management</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -27,25 +29,52 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse p-2" id="navbarNav">
-          <ul class="navbar-nav fs-5">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0 fs-5"></ul>
+          <div class="d-flex navbar-nav fs-5">
             <li class="nav-item">
               <a
-                class="nav-link active text-danger"
+                class="nav-link active text-warning"
                 aria-current="page"
-                href="http://localhost:8080/Insurance-Management/"
+                href="http://localhost:8080/Insurance-Management2/"
               >
                 Home
               </a>
             </li>
-          </ul>
+            <li class="nav-item">
+              <a
+                class="nav-link active"
+                aria-current="page"
+                href="http://localhost:8080/Insurance-Management2/userLogin"
+                >Customer</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link active"
+                aria-current="page"
+                href="http://localhost:8080/Insurance-Management2/adminLogin"
+              >
+                Admin
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link active text-danger"
+                aria-current="page"
+                href="http://localhost:8080/Insurance-Management2/adminLogin"
+              >
+                Logout <span class="fs-6">(admin)</span>
+              </a>
+            </li>
+          </div>
         </div>
       </div>
     </nav>
-    <div class="text-center">
+    <div class="container text-center p-4">
       <h2>Welcome to the Admin's Page</h2>
       <div class="row mt-5">
         <div class="col-lg-3">
-          <div class="card" style="width: 18rem; margin-left: 50px">
+          <div class="card" style="width: 18rem">
             <div class="card-body">
               <h5 class="card-title">Add Policy Scheme</h5>
               <p class="card-text p-3">
@@ -58,7 +87,7 @@
           </div>
         </div>
         <div class="col-lg-3">
-          <div class="card" style="width: 18rem; margin-left: 50px">
+          <div class="card" style="width: 18rem">
             <div class="card-body">
               <h5 class="card-title">View All Policy Schemes</h5>
               <p class="card-text p-3">
@@ -72,7 +101,7 @@
           </div>
         </div>
         <div class="col-lg-3">
-          <div class="card" style="width: 18rem; margin-left: 50px">
+          <div class="card" style="width: 18rem">
             <div class="card-body">
               <h5 class="card-title">Add Customer</h5>
               <p class="card-text p-3">
@@ -85,15 +114,13 @@
           </div>
         </div>
         <div class="col-lg-3">
-          <div class="card" style="width: 18rem; margin-left: 50px">
+          <div class="card" style="width: 18rem">
             <div class="card-body">
               <h5 class="card-title">View Policies for Customer</h5>
               <p class="card-text p-3">
                 Display all the policies for a given customer.
               </p>
-              <a
-                href="customerPolicyPage"
-                class="btn btn-primary"
+              <a href="customerPolicyPage" class="btn btn-primary"
                 >Display Policies For Customer Page</a
               >
             </div>
@@ -102,4 +129,7 @@
       </div>
     </div>
   </body>
+  <footer class="bg-dark text-white text-center text-lg-start p-3 fixed-bottom">
+    <div class="text-center p-3">2022 Copyright: Shivang Sharma</div>
+  </footer>
 </html>

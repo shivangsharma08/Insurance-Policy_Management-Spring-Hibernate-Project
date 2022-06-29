@@ -5,11 +5,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.ncs</groupId>
-  <artifactId>Insurance-Management</artifactId>
+  <artifactId>Insurance-Management2</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>war</packaging>
 
-  <name>Insurance-Management Maven Webapp</name>
+  <name>Insurance-Management2 Maven Webapp</name>
   <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>
 
@@ -107,11 +107,17 @@
       <artifactId>spring-webmvc</artifactId>
       <version>5.3.10</version>
     </dependency>
-    
+    <!-- https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator -->
+    <dependency>
+      <groupId>org.hibernate.validator</groupId>
+      <artifactId>hibernate-validator</artifactId>
+      <version>6.2.3.Final</version>
+    </dependency>
+
   </dependencies>
 
   <build>
-    <finalName>Insurance-Management</finalName>
+    <finalName>Insurance-Management2</finalName>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
         <plugin>

@@ -8,7 +8,11 @@ import java.util.Random;
 @Entity
 public class CustomerPolicy {
     
+    @Column(name = "cust_id")
+    private int cust_id;
     @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private int cpid;
     @Column(name = "policy_number")
     private int policy_number;
     @Column(name = "policy_name")
@@ -21,32 +25,38 @@ public class CustomerPolicy {
     private String premium_payment_cycle;
     @Column(name = "calculated_premium")
     private double calculated_premium;
-
-//    @ManyToOne
-//    public List<Customer> custs;
+    
     
     public CustomerPolicy() {
 
     }
 
-    public CustomerPolicy(/*int customer_id,*/ int policy_number, String policy_name, double sum_assured_needed, int no_of_years, String premium_payment_cycle, double calculated_premium/*, List<Customer> custs*/) {
-//        this.customer_id = customer_id;
+    public CustomerPolicy(int cust_id, int cpid, int policy_number, String policy_name, double sum_assured_needed, int no_of_years, String premium_payment_cycle, double calculated_premium) {
+        this.cust_id = cust_id;
+        this.cpid = cpid;
         this.policy_number = policy_number;
         this.policy_name = policy_name;
         this.sum_assured_needed = sum_assured_needed;
         this.no_of_years = no_of_years;
         this.premium_payment_cycle = premium_payment_cycle;
         this.calculated_premium = calculated_premium;
-//        this.custs = custs;
     }
 
-//    public int getCustomer_id() {
-//        return customer_id;
-//    }
-//
-//    public void setCustomer_id(int customer_id) {
-//        this.customer_id = customer_id;
-//    }
+    public int getCpid() {
+        return cpid;
+    }
+
+    public void setCpid(int cpid) {
+        this.cpid = cpid;
+    }
+
+    public int getCust_id() {
+        return cust_id;
+    }
+
+    public void setCust_id(int cust_id) {
+        this.cust_id = cust_id;
+    }
 
     public int getPolicy_number() {
         return policy_number;
@@ -95,12 +105,5 @@ public class CustomerPolicy {
     public void setCalculated_premium(double calculated_premium) {
         this.calculated_premium = calculated_premium;
     }
-
-//    public List<Customer> getCusts() {
-//        return custs;
-//    }
-//
-//    public void setCusts(List<Customer> custs) {
-//        this.custs = custs;
-//    }
+    
 }

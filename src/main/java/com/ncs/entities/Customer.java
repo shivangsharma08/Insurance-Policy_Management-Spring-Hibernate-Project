@@ -4,6 +4,10 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,38 +15,56 @@ import java.util.List;
 @Table(name = "customer")
 public class Customer {
     @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "id_Sequence")
+    @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name = "customer_id")
     private int customer_id;
+    
+    @NotNull(message = "name is required")
+    @Size(min = 3, message = "Minimum 3 charaters required")
     @Column(name = "customer_name")
     private String customer_name;
+
+    @NotNull(message = "age is required")
+    @Min(value = 18)
     @Column(name = "customer_age")
     private String customer_age;
+
+    @NotNull(message = "gender is required")
     @Column(name = "customer_gender")
     private String customer_gender;
+
+    @NotNull(message = "address is required")
+    @Size(min = 5, message = "Address must contain atleast 5 characters")
     @Column(name = "customer_address")
     private String customer_address;
+
+    @NotNull(message = "phone no is required")
+    @Size(min=10,max=10, message = "Phone number must be 10 digit")
     @Column(name = "customer_phoneno")
     private String customer_phoneno;
+
+    @NotNull(message = "username is required")
+    @Size(min = 4, message = "Username must contain atleast 4 characters")
     @Column(name = "username")
     private String username;
+
+    @NotNull(message = "password is required")
+    @Size(min = 6, max = 12, message = "Password must contain 6-12 characters")
     @Column(name = "password")
     private String password;
+    
+    
 
     @LazyCollection(LazyCollectionOption.FALSE)
     @ManyToMany(cascade={CascadeType.ALL})
-    @JoinTable(name = "policy_customer", joinColumns = @JoinColumn(name = "cid"), inverseJoinColumns = @JoinColumn(name = "sid"))
-    private List<Policy> policies;
-    
-    
-//    @OneToMany(mappedBy = "custs", cascade = {CascadeType.ALL})       
-//    @JoinColumn(name = "customer_id")       
-//    List<CustomerPolicy> customerPolicies;
+    @JoinColumn(name = "cust_id")
+    @JoinTable(name = "customerpolicy_customer", joinColumns = @JoinColumn(name = "cust_id"), inverseJoinColumns = @JoinColumn(name = "cpid"))
+    List<CustomerPolicy> customerPolicies;
     
     public Customer() {
     }
 
-    public Customer(int customer_id, String customer_name, String customer_age, String customer_gender, String customer_address, String customer_phoneno, String username, String password, List<Policy> policies) {
+    public Customer(int customer_id, String customer_name, String customer_age, String customer_gender, String customer_address, String customer_phoneno, String username, String password,List<CustomerPolicy> customerPolicies) {
         this.customer_id = customer_id;
         this.customer_name = customer_name;
         this.customer_age = customer_age;
@@ -51,17 +73,17 @@ public class Customer {
         this.customer_phoneno = customer_phoneno;
         this.username = username;
         this.password = password;
-        this.policies = policies;
-        
+        this.customerPolicies = customerPolicies;
     }
 
-    public List<Policy> getPolicies() {
-        return policies;
+    public List<CustomerPolicy> getCustomerPolicies() {
+        return customerPolicies;
     }
 
-    public void setPolicies(List<Policy> policies) {
-        this.policies = policies;
+    public void setCustomerPolicies(List<CustomerPolicy> customerPolicies) {
+        this.customerPolicies = customerPolicies;
     }
+    
 
     public int getCustomer_id() {
         return customer_id;
@@ -126,28 +148,15 @@ public class Customer {
     public void setPassword(String password) {
         this.password = password;
     }
+    
+    
+    // ADDING THE POLICY TAKEN BY CUSTOMER IN LIST
+    public void addCustomerPolicy(CustomerPolicy cp){
+        if(customerPolicies == null){
+            customerPolicies = new ArrayList<>();
+        }
+        customerPolicies.add(cp);
+    }
 
    
-    
-    public void add(Policy policy){
-        if(policies == null){
-            policies = new ArrayList<>();
-        }
-        policies.add(policy);
-    }
-
-    @Override
-    public String toString() {
-        return "Customer{" +
-                "customer_id=" + customer_id +
-                ", customer_name='" + customer_name + '\'' +
-                ", customer_age='" + customer_age + '\'' +
-                ", customer_gender='" + customer_gender + '\'' +
-                ", customer_address='" + customer_address + '\'' +
-                ", customer_phoneno='" + customer_phoneno + '\'' +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", policies=" + policies +
-                '}';
-    }
 }

@@ -9,15 +9,16 @@ import java.util.List;
 
 public interface AppDao {
     public void setTemplate(HibernateTemplate hibernateTemplate);
-    public Customer getCustomer(int cid);
+    public Customer getCustomerByCid(int cid);
     public Customer getCustomerByUsername(String unm);
     public void addPolicy(Policy p);
     public List<Policy> viewAllPolicy();
     public void addCustomer(Customer c);
     public Policy getPolicy(CustomerPolicy cp);
-    public CustomerPolicy applyPolicy(CustomerPolicy cp);
+    public CustomerPolicy applyPolicy(int cid, CustomerPolicy cp);
     public List<CustomerPolicy> viewPoliciesForCustomer(int cid);
     public boolean validateUser(String uname, String pwd);
     public Policy viewPolicyDetails(int sno);
-    public void applyPolicyForCustomer(Customer c, Policy p);
+    public void applyPolicyForCustomer(Customer c, CustomerPolicy p);
+    public CustomerPolicy getCustomerPolicy(int cpid);
 }

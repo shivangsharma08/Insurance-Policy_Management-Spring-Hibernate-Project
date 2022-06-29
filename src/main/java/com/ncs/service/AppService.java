@@ -13,10 +13,9 @@ public interface AppService {
     public List<Policy> viewAllPolicy();
     public void addCustomer(Customer c);
     public Customer getCustomerByUsername(String unm);
-    public Customer getCustomer(int cid);
+    public Customer getCustomerByCid(int cid);
     public Policy getPolicy(CustomerPolicy cp);
     public Policy viewPolicyDetails(int sno);
-    public void applyPolicyForCustomer(int cid, CustomerPolicy p);
-    
-    
+    public boolean addPolicyForCustomer(int cid, CustomerPolicy p);
+    public CustomerPolicy getCustomerPolicy(int cpid);
 }

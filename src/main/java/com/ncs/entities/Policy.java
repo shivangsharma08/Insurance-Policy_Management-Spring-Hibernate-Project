@@ -4,6 +4,9 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,37 +15,45 @@ import java.util.List;
 public class Policy {
     
     @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "id_Sequence")
+    @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name = "scheme_number")
     private int scheme_number;
+
+    @NotNull(message = "name is required")
+    @Size(min = 6, message = "Policy name must contain atleast 6 charaters")
     @Column(name = "policy_name")
     private String policy_name;
+    
+    @NotNull(message = "policy_type is require")
     @Column(name = "policy_type")
     private String policy_type;
+
+    @NotNull(message = "max years is required")
+    @Min(value = 1, message = "Value must be greater than 0")
     @Column(name = "max_no_of_years")
     private int max_no_of_years;
+
+    @NotNull(message = "premium rate is required")
+    @Min(value = 1, message = "Value must be greater than 0")
     @Column(name = "premium_rate")
     private double premium_rate;
+
+    @NotNull(message = "max sum assured is required")
+    @Min(value = 1, message = "Value must be greater than 0")
     @Column(name = "max_sum_assured")
     private double max_sum_assured;
-
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @ManyToMany(cascade={CascadeType.ALL})
-    @JoinTable(name = "policy_customer", joinColumns = @JoinColumn(name = "sid"), inverseJoinColumns = @JoinColumn(name = "cid"))
-    private List<Customer> customers;
     
-
+    
     public Policy() {
     }
 
-    public Policy(int scheme_number, String policy_name, String policy_type, int max_no_of_years, double premium_rate, double max_sum_assured, List<Customer> customers) {
+    public Policy(int scheme_number, String policy_name, String policy_type, int max_no_of_years, double premium_rate, double max_sum_assured) {
         this.scheme_number = scheme_number;
         this.policy_name = policy_name;
         this.policy_type = policy_type;
         this.max_no_of_years = max_no_of_years;
         this.premium_rate = premium_rate;
         this.max_sum_assured = max_sum_assured;
-        this.customers = customers;
     }
 
     public int getScheme_number() {
@@ -93,32 +104,6 @@ public class Policy {
         this.max_sum_assured = max_sum_assured;
     }
 
-    public List<Customer> getCustomers() {
-        return customers;
-    }
 
-    public void setCustomers(List<Customer> customers) {
-        this.customers = customers;
-    }
     
-    public void add(Customer c){
-        if(customers == null){
-            customers = new ArrayList<>();
-        }
-
-        customers.add(c);
-    }
-
-    @Override
-    public String toString() {
-        return "Policy{" +
-                "scheme_number=" + scheme_number +
-                ", policy_name='" + policy_name + '\'' +
-                ", policy_type='" + policy_type + '\'' +
-                ", max_no_of_years=" + max_no_of_years +
-                ", premium_rate=" + premium_rate +
-                ", max_sum_assured=" + max_sum_assured +
-                ", customers=" + customers +
-                '}';
-    }
 }

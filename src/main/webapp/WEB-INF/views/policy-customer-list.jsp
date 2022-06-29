@@ -13,30 +13,98 @@
       crossorigin="anonymous"
     ></script>
   </head>
-  <body class="container p-5 bg-light">
-    <h2 class="text-center mt-3 mb-5">ALL POLICY SCHEMES APPLIED</h2>
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Policy Name</th>
-         
-        </tr>
-      </thead>
-      <tbody>
-        <c:forEach
-          var="c"
-          items="${policiesForCustomerList}"
-          varStatus="status"
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand">Insurance Policy Management</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
         >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse p-2" id="navbarNav">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0 fs-5"></ul>
+          <div class="d-flex navbar-nav fs-5">
+            <li class="nav-item">
+              <a
+                class="nav-link active text-warning"
+                aria-current="page"
+                href="http://localhost:8080/Insurance-Management2/"
+              >
+                Home
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link active"
+                aria-current="page"
+                href="http://localhost:8080/Insurance-Management2/userLogin"
+                >Customer</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link active"
+                aria-current="page"
+                href="http://localhost:8080/Insurance-Management2/adminLogin"
+              >
+                Admin
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link active text-danger"
+                aria-current="page"
+                href="http://localhost:8080/Insurance-Management2/adminLogin"
+              >
+                Logout <span class="fs-6">(admin)</span>
+              </a>
+            </li>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container p-5 bg-light">
+      <h2 class="text-center mt-3 mb-5">
+        ALL POLICY SCHEMES APPLIED BY ${cname}
+      </h2>
+      <table class="table table-striped">
+        <thead>
           <tr>
-            <th scope="row">${status.count}</th>
-           
-            <td>${c.getPolicy_name()}</td>
-            
+            <th scope="col">#</th>
+            <th scope="col">Customer Id</th>
+            <th scope="col">Policy Number</th>
+            <th scope="col">Policy Name</th>
+            <th scope="col">Sum Assured Needed</th>
+            <th scope="col">No of Years</th>
+            <th scope="col">Premium Payment Cycle</th>
           </tr>
-        </c:forEach>
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          <c:forEach
+            var="c"
+            items="${policiesForCustomerList}"
+            varStatus="status"
+          >
+            <tr>
+              <th scope="row">${status.count}</th>
+              <td>${c.getCust_id()}</td>
+              <td>${c.getPolicy_number()}</td>
+              <td>${c.getPolicy_name()}</td>
+              <td>${c.getSum_assured_needed()}</td>
+              <td>${c.getNo_of_years()}</td>
+              <td>${c.getPremium_payment_cycle()}</td>
+            </tr>
+          </c:forEach>
+        </tbody>
+      </table>
+    </div>
   </body>
 </html>

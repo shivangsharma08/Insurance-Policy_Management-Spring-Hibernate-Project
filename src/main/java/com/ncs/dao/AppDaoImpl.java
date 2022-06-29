@@ -25,7 +25,7 @@ public class AppDaoImpl implements AppDao {
     }
     
     @Override
-    public Customer getCustomer(int cid){
+    public Customer getCustomerByCid(int cid){
         Session session = hibernateTemplate.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
         Customer c =  (Customer)session.get(Customer.class, cid);
@@ -74,45 +74,41 @@ public class AppDaoImpl implements AppDao {
 
     @Override
     public Policy getPolicy(CustomerPolicy cp){
-       
         Session session = hibernateTemplate.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
         Query q = session.createQuery("FROM Policy p WHERE p.policy_name = '" + cp.getPolicy_name() + "'");
-        
         List<Policy> pl = q.list();
-
         t.commit();
         session.close();
-       
         Policy p = pl.get(0);
-       
         return p;
         
     }
 
     @Override
-    public CustomerPolicy applyPolicy(CustomerPolicy cp){
+    public CustomerPolicy applyPolicy(int cid, CustomerPolicy cp){
         String hql;
-        int pay_cycle = 0;
+        int pay_cycle = 1;
         hql = "FROM Policy p WHERE p.policy_name = '" + cp.getPolicy_name() + "'";
         
         Session session = hibernateTemplate.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
         Query q = session.createQuery(hql);
         
+        // VALIDATING THE POLICY APPLIED BY THE CUSTOMER AND CALCULATING PREMIUM
         List<Policy> pl = q.list();
         for(Policy p: pl){
             if((cp.getSum_assured_needed() <= p.getMax_sum_assured()) && (cp.getNo_of_years() <= p.getMax_no_of_years())){
                 cp.setPolicy_number(p.getScheme_number());
+                
                 if(cp.getPremium_payment_cycle().equals("Quarterly")){
                     pay_cycle = 4;
                 }
                 else if(cp.getPremium_payment_cycle().equals("Monthly")){
                     pay_cycle = 12;
                 }
-                double annual_premium = (cp.getSum_assured_needed()*p.getPremium_rate())/100000;
+                double annual_premium = ((cp.getSum_assured_needed()*p.getPremium_rate())/100000)*cp.getNo_of_years();
                 cp.setCalculated_premium(annual_premium/pay_cycle);
-//                session.save(cp);
                 t.commit();
                 session.close();
                 return cp;
@@ -146,8 +142,8 @@ public class AppDaoImpl implements AppDao {
         List<Customer> cl = q.list();
         t.commit();
         session.close();
-        for(Customer c: cl){
-            if(c.getUsername().equals(uname) && c.getPassword().equals(pwd)){
+        for(Customer c: cl){    // VALIDATING USER LOGIN WITH DB 
+            if(c.getUsername().equals(uname) && c.getPassword().equals(pwd)){   
                 return true;
             }
             else{
@@ -161,21 +157,29 @@ public class AppDaoImpl implements AppDao {
     public Policy viewPolicyDetails(int sno){
         Session session = hibernateTemplate.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
-        
         Policy p1 = (Policy) session.get(Policy.class, sno);
-       
         t.commit();
         session.close();
-        
         return p1;
     }
 
     @Override
-    public void applyPolicyForCustomer(Customer c, Policy p) {
+    public CustomerPolicy getCustomerPolicy(int cpid){
         Session session = hibernateTemplate.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
+        CustomerPolicy cp = (CustomerPolicy)session.get(CustomerPolicy.class, cpid);
+        t.commit();
+        session.close();
+        return cp;
+    }
+
+    @Override
+    public void applyPolicyForCustomer(Customer c,CustomerPolicy cp) {
+        Session session = hibernateTemplate.getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
+       
+        hibernateTemplate.save(cp);
         hibernateTemplate.saveOrUpdate(c);
-        hibernateTemplate.saveOrUpdate(p);
         t.commit();
         session.close();
     }

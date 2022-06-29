@@ -48,8 +48,8 @@ public class AppServiceImpl implements AppService{
 
     @Override
     @Transactional
-    public Customer getCustomer(int cid){
-        return appDao.getCustomer(cid);
+    public Customer getCustomerByCid(int cid){
+        return appDao.getCustomerByCid(cid);
     }
 
     @Override
@@ -64,13 +64,28 @@ public class AppServiceImpl implements AppService{
         return appDao.viewPolicyDetails(sno);
     }
     
+
     @Override
     @Transactional
-    public void applyPolicyForCustomer(int cid, CustomerPolicy cp){
-        Customer c = appDao.getCustomer(cid);
-        Policy p = appDao.getPolicy(cp);
-        c.add(p);
-        appDao.applyPolicyForCustomer(c,p);
+    public boolean addPolicyForCustomer(int cid, CustomerPolicy cp){
+        Customer c = appDao.getCustomerByCid(cid);
+        CustomerPolicy custPolicy =  appDao.applyPolicy(cid, cp);
+        if(custPolicy!=null){
+            custPolicy.setCust_id(cid);
+            c.addCustomerPolicy(custPolicy);
+            appDao.applyPolicyForCustomer(c,custPolicy);
+            return true;
+        }
+        else{
+            return false;
+        }
+        
+    }
+    
+    @Override
+    @Transactional
+    public CustomerPolicy getCustomerPolicy(int cpid){
+        return appDao.getCustomerPolicy(cpid);
     }
     
 
